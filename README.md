@@ -275,7 +275,6 @@ More examples can be found in *Examples* folder, copy and replace the files unde
 xrepo add-repo zeromake https://github.com/zeromake/xrepo.git
 xrepo install arm-toolchain
 xrepo info arm-toolchain
-xmake f -p cross -a arm --toolchain=arm-toolchain --sdk=/Users/zero/.xmake/packages/a/arm-toolchain/14.2.0-rel1/fd921c
-95f67d4418aecf2de973b86e55 -c
+xmake f -p cross -a arm --toolchain=arm-toolchain --sdk=/Users/zero/.xmake/packages/a/arm-toolchain/14.2.0-rel1/fd921c95f67d4418aecf2de973b86e55 -c
 xmake b -vD main
 ```
