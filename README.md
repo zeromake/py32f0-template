@@ -272,9 +272,26 @@ More examples can be found in *Examples* folder, copy and replace the files unde
 # xmake
 
 ``` sh
-xrepo add-repo zeromake https://github.com/zeromake/xrepo.git
-xrepo install arm-toolchain
-xrepo info arm-toolchain
-xmake f -p cross -a arm --toolchain=arm-toolchain --sdk=/Users/zero/.xmake/packages/a/arm-toolchain/14.2.0-rel1/fd921c95f67d4418aecf2de973b86e55 -c
+xmake f -c -y
 xmake b -vD main
+```
+
+``` json
+{
+  "name": "arm",
+  "includePath": [
+    "${workspaceFolder}/User",
+    "${workspaceFolder}/Libraries/CMSIS/Core/Include",
+    "${workspaceFolder}/Libraries/CMSIS/Device/PY32F0xx/Include",
+    "${workspaceFolder}/Libraries/PY32F0xx_HAL_Driver/Inc",
+    "${workspaceFolder}/Libraries/PY32F0xx_HAL_BSP/Inc"
+  ],
+  "defines": [
+    "PY32F003x4"
+  ],
+  "cStandard": "c17",
+  "cppStandard": "c++17",
+  "intelliSenseMode": "linux-gcc-arm",
+  "compilerPath": "${arm-toolchain-dir}/bin/arm-none-eabi-gcc"
+}
 ```

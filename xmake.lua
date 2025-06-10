@@ -4,24 +4,13 @@ set_languages("c17")
 set_plat("cross")
 set_arch("arm")
 
+add_repositories("zero https://github.com/zeromake/xrepo.git")
 add_requires("arm-toolchain")
+set_toolchains("arm-toolchain@arm-toolchain")
 
 toolchain("arm-toolchain")
-    local prefix = "arm-none-eabi-"
-    set_kind("standalone")
-    set_formats("object", "%$%(name%).o")
+    set_kind("cross")
     set_formats("binary", "%$%(name%).elf")
-    set_formats("static", "%$%(name%).lib")
-    set_formats("shared", "lib%$%(name%).so")
-    set_formats("symbol", "%$%(name%).sym")
-    set_toolset("cc", prefix .. "gcc")
-    set_toolset("cxx", prefix .. "gcc", prefix .. "g++")
-    set_toolset("ld", prefix .. "g++", prefix .. "gcc")
-    set_toolset("sh", prefix .. "g++", prefix .. "gcc")
-    set_toolset("ar", prefix.."ar")
-    set_toolset("ex", prefix.."ar")
-    set_toolset("strip", prefix.."strip")
-    set_toolset("as", prefix .. "gcc")
     add_cxflags(
         "-mcpu=cortex-m0plus",
         "-gdwarf-3",
@@ -47,11 +36,10 @@ toolchain("arm-toolchain")
     )
     set_archs("arm", "arm64")
     add_syslinks("c", "m")
-    on_check(function (toolchain)
-        return import("lib.detect.find_tool")(prefix.."gcc")
+    on_load(function (toolchain)
+        toolchain:load_cross_toolchain()
     end)
 toolchain_end()
-
 
 target("main")
     set_kind("binary")
@@ -59,8 +47,6 @@ target("main")
     add_defines("PY32F003x4")
     add_files("Libraries/PY32F0xx_HAL_Driver/Src/*.c")
     add_files("Libraries/PY32F0xx_HAL_BSP/Src/*.c")
-    add_packages("arm-toolchain")
-    set_toolchains("@arm-toolchain")
     add_files(
         "Libraries/CMSIS/Device/PY32F0xx/Source/system_py32f0xx.c",
         "Libraries/CMSIS/Device/PY32F0xx/Source/gcc/startup_py32f003.s"
